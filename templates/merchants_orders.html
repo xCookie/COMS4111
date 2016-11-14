@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+  <h2 style="margin:0px"> Hi, {{ info['name'] }}! </h2>
+</div>
+
+<div class="row">
+  <hr>
+  <h3> Order History </h3>
+  {% for order in orders %}
+  {% if order['status'] == '0' %}
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Client : {{ order['name'] }} - Status : Proccessing
+      <a class="btn btn-success btn-sm pull-right" href="/orders/{{ info['uid'] }}/ {{order['ord_id']}}/complete/" role="button"> Complete </a>
+  {% elif order['status'] == '1' %}
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Client : {{ order['name'] }} - Status : Completed
+  {% else %}
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Client : {{ order['name'] }} - Status : Cancelled
+  {% endif %}
+    </div>
+    <table class="table">
+        <thead>
+          <tr>
+          <th> Dish </th>
+          <th> Number </th>
+          <th> Price </th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for dish in has_dish %}
+        {% if order['ord_id'] == dish['ord_id'] %}
+          <tr>
+            <td> {{ dish['dname'] }} </td>
+            <td> {{ dish['ord_number'] }} </td>
+            <td> $ {{ dish['price'] }} </td>
+          </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+      </table>
+
+    <div class="panel-footer">
+      <!--<p> <b>Total Price :</b> $ {{ order['total_price'] }}</p>-->
+      <p> <b>Time :</b> {{ order['ord_time'] }}</p>
+      <p> <b>Phone :</b> {{ order['tel_number'] }}</p>
+      <p> <b>Address :</b> {{ order['address'] }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

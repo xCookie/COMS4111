@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+
+{% block update %}
+<div id="updateModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+  <!-- Modal content-->
+    <div class="modal-content">
+      <form class="form-horizontal" action="/clients/{{ session.logged_in_uid }}/update/" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-3 control-label"> UID </label>
+            <div class="col-sm-8">
+              <p class="form-control-static"> {{ session.logged_in_uid }} </p>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_name"> * Name </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control" name="name" id="add_name" value="{{ info['name'] }}" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_email"> Email </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control" name="email" id="add_email" value="{{ info['email'] }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_date"> Date of Birth </label>
+            <div class="col-sm-8">
+            <input type="date" class="form-control" name="date" id="add_date" value="{{ info['dateofbirth'] }}">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-sm-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success btn-block"> Submit </button>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-default btn-block" data-dismiss="modal"> Cancel </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <h2 style="margin:0px"> Hi, {{ info['name'] }}! </h2>
+</div>
+
+<div class="row">
+  <hr>
+  <div class="col-sm-4">
+    <p><b> E-mail : </b> {{ info['email'] }} </p>
+    <p><b> Date of Birth :</b>  {{ info['dateofbirth'] }} </p>
+  </div>
+  <div class="col-sm-3 pull-right">
+    <a class="btn btn-warning btn-block" href="" data-toggle="modal" data-target="#updateModal">
+      <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile </a>
+  </div>
+</div>
+
+<div class="row">
+  <hr>
+  <h3> Order History </h3>
+  {% for order in orders %}
+  {% if order['status'] == '0' %}
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Merchant : {{ order['name'] }} - Status : Proccessing
+      <a class="btn btn-danger btn-sm pull-right" href="/orders/{{ info['uid'] }}/ {{order['ord_id']}}/cancel/" role="button"> Cancel </a>
+  {% elif order['status'] == '1' %}
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Merchant : {{ order['name'] }} - Status : Completed
+  {% else %}
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      Order Number : {{ order['ord_id'] }} - Merchant : {{ order['name'] }} - Status : Cancelled
+  {% endif %}
+    </div>
+    <table class="table">
+        <thead>
+          <tr>
+          <th> Dish </th>
+          <th> Number </th>
+          <th> Price </th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for dish in has_dish %}
+        {% if order['ord_id'] == dish['ord_id'] %}
+          <tr>
+            <td> {{ dish['dname'] }} </td>
+            <td> {{ dish['ord_number'] }} </td>
+            <td> $ {{ dish['price'] }} </td>
+          </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+      </table>
+
+    <div class="panel-footer">
+      <!--<p> <b>Total Price :</b> $ {{ order['total_price'] }}</p>-->
+      <p> <b>Time :</b> {{ order['ord_time'] }}</p>
+      <p> <b>Phone :</b> {{ order['tel_number'] }}</p>
+      <p> <b>Address :</b> {{ order['address'] }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

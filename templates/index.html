@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h2 class="text-center"> HungerGame </h2>
+      <p> A Web-basd Food Order System </p>
+    </div>
+  </div>
+</div>
+
+<div id="signupModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+  <!-- Modal content-->
+    <div class="modal-content">
+      <form class="form-horizontal" action="/merchants/add/" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Register As A Merchant
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_uid"> * UID </label>
+            <div class="col-sm-8">
+              <input type="number" step="1" class="form-control" name="uid" id="add_uid"
+              placeholder="Try an integer!" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_name"> * Name </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="name" id="add_name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_email"> Email </label>
+            <div class="col-sm-8">
+              <input type="email" class="form-control" name="email" id="add_email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_address"> * Adress </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="address" id="add_address" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_phone"> * Phone </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="phone" id="add_phone" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_img"> Image URL </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="img" id="add_img">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-sm-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success btn-block"> Submit </button>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-default btn-block" data-dismiss="modal"> Cancel </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="signupModal2" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+  <!-- Modal content-->
+    <div class="modal-content">
+      <form class="form-horizontal" action="/clients/add/" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Register As A Client
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_uid"> * UID </label>
+            <div class="col-sm-8">
+              <input type="number" step="1" class="form-control" name="uid" id="add_uid"
+              placeholder="Try an integer!" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_name"> * Name </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="name" id="add_name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_email"> Email </label>
+            <div class="col-sm-8">
+              <input type="email" class="form-control" name="email" id="add_email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="add_date"> Date of Birth </label>
+            <div class="col-sm-8">
+              <input type="date" class="form-control" name="date" id="add_date">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-sm-3 col-sm-offset-3">
+            <button type="submit" class="btn btn-success btn-block"> Submit </button>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-default btn-block" data-dismiss="modal"> Cancel </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  {% if not session.logged_in %}
+  <!--login-->
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <strong> <i class="fa fa-paper-plane-o" aria-hidden="true"></i> Please login </strong>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" action="/login/" method="post">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="username">
+              <i class="fa fa-user" aria-hidden="true"></i> UID
+            </label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control" name="username" id="id_username" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="password">
+              <i class="fa fa-lock" aria-hidden="true"></i> Password
+            </label>
+            <div class="col-sm-8">
+            <input type="password" class="form-control" name="password" id="id_password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="dropdown col-sm-3 col-sm-offset-5">
+              <button class="btn btn-default dropdown-toggle btn-block" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Register
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a class="btn btn-default btn-block" data-toggle="modal" data-target="#signupModal">
+                    Be A Merchant </a></li>
+                <li><a class="btn btn-default btn-block" data-toggle="modal" data-target="#signupModal2">
+                    Be A Client </a></li>
+              </ul>
+            </div>
+            <div class="col-sm-3">
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Login
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <strong> <i class="fa fa-paper-plane" aria-hidden="true"></i> Welcome </strong>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <h2 class="text-center" style="padding:15px;">
+            <strong> Welcome back, {{ session.logged_in_name }}! </strong>
+          </h2>
+          <p class="text-center" style="padding:15px;">
+            You are logged in as <strong> {{ session.logged_in_as }} </strong>.
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <a class="btn btn-danger btn-block" href="/logout/">
+              <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

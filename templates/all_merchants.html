@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-3">
+    <h2 style="margin:0px"> All Restaurants </h2>
+  </div>
+</div>
+<hr>
+{% for merchant in merchants %}
+<div class="row">
+  <div class="media col-sm-8">
+    <div class="media-left media-middle col-sm-4">
+      <a href="/merchants/{{ merchant['uid'] }}/">
+        <img class="media-object img-thumbnail" src="{{ merchant['img'] }}" alt="{{ merchant['name'] }}" style="width: 140px; height: 140px;">
+      </a>
+    </div>
+    <div class="media-body">
+      <h3 class="media-heading"> {{ merchant['name'] }} </h3>
+      <P><b>  Email : </b> {{ merchant['email'] }} </p>
+      <P><b>  Phone : </b> {{ merchant['tel_number'] }} </p>
+      <P><b>  Address : </b> {{ merchant['address'] }} </p>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <p style="padding:15px"></p>
+    <a class="btn btn-info" href="/merchants/{{ merchant['uid'] }}/" role="button"><i class="fa fa-book" aria-hidden="true"></i> Explore the Menu </a>
+  </div>
+</div>
+<hr>
+{% endfor %}
+{% endblock %}
